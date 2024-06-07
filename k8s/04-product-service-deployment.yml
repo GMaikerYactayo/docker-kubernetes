@@ -4,7 +4,7 @@ metadata:
   name: product-service
   labels:
     app: product-service
-  namespace: service-mysql-space
+  namespace: docker-kubernetes
 spec:
   replicas: 1
   selector:
@@ -26,20 +26,22 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  key: SPRING_DATASOURCE_USERNAME
-                  name: product-mysql-secrets
+                  key: username_password
+                  name: mysql-secrets
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: SPRING_DATASOURCE_PASSWORD
-                  name: product-mysql-secrets
+                  key: root_password
+                  name: mysql-secrets
       restartPolicy: Always
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: product-service
-  namespace: service-mysql-space
+  labels:
+    app: product-service
+  namespace: docker-kubernetes
 spec:
   selector:
     app: product-service
